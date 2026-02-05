@@ -1,8 +1,8 @@
 <div class="sidebar">
 
-<h4>Church Finance</h4>
+<h4>San Nicolas de Tolentino Parish Church</h4>
 
-<a href="staff_index.php" class="active">
+<a href="staff_index.php">
 <i class="bi bi-speedometer2"></i> Dashboard
 </a>
 
@@ -14,8 +14,8 @@
 <i class="bi bi-wallet2"></i> Expenses
 </a>
 
-<a href="reports.php">
-<i class="bi bi-bar-chart"></i> Reports
+<a href="ai_insights.php">
+<i class="bi bi-bar-chart"></i> AI Insights
 </a>
 
 <hr>

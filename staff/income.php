@@ -33,7 +33,7 @@ ORDER BY income_id DESC
 
 <body>
 
-<?php include("includes/sidebar.php"); ?>
+<?php include("includes/staff_sidebar.php"); ?>
 
 <!-- MAIN -->
 <div class="main-content">

@@ -46,7 +46,7 @@ if(isset($_POST['login'])){
             }
             elseif($user['role'] === 'staff'){
 
-                header("Location: ../dashboard/staff_index.php");
+                header("Location: ../staff/staff_index.php");
                 exit();
 
             }

@@ -33,7 +33,7 @@ ORDER BY expense_id DESC
 </head>
 <body>
 
-<?php include("includes/sidebar.php"); ?>
+<?php include("includes/staff_sidebar.php"); ?>
 
 
 <!-- MAIN -->

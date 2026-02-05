@@ -95,16 +95,16 @@ Welcome, <?= $_SESSION['user']['name'] ?>
 
 <div class="d-grid gap-2">
 
-<a href="income.php" class="btn btn-outline-success">
+<a href="income.php" class="btn btn-success">
 <i class="bi bi-cash"></i> Add Income
 </a>
 
-<a href="expenses.php" class="btn btn-outline-danger">
+<a href="expenses.php" class="btn btn-danger">
 <i class="bi bi-wallet2"></i> Add Expense
 </a>
 
-<a href="reports.php" class="btn btn-outline-primary">
-<i class="bi bi-bar-chart"></i> View Reports
+<a href="ai_insights.php" class="btn btn-primary">
+<i class="bi bi-bar-chart"></i> View AI Insights
 </a>
 
 </div>
