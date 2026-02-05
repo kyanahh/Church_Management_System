@@ -1,0 +1,80 @@
+body {
+    background: linear-gradient(to right, #fffaf0, #f5efe6);
+}
+
+/* Theme Colors */
+.text-brown {
+    color: #6b4226;
+}
+
+.btn-gold {
+    background-color: #c9a44c;
+    color: white;
+}
+
+.btn-gold:hover {
+    background-color: #a8862f;
+    color: white;
+}
+
+.bg-brown {
+    background-color: #6b4226;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #6b4226;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+.sidebar h4 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    display: block;
+    color: #f5efe6;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #c9a44c;
+    color: #fff;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 240px;
+    padding: 25px;
+    background: #faf7f2;
+    min-height: 100vh;
+}
+
+/* Cards */
+.stat-card {
+    border: none;
+    border-radius: 12px;
+}
+
+.stat-card h6 {
+    color: #6b4226;
+}
+
+.stat-card h3 {
+    font-weight: bold;
+}
