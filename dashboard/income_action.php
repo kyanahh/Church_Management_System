@@ -28,10 +28,30 @@ $date=$_POST['date'];
 
 $ref="INC-".date("Ymd")."-".rand(1000,9999);
 
+/* UPLOAD RECEIPT */
+$proof = "";
+
+if(isset($_FILES['receipt']) && $_FILES['receipt']['name']!=""){
+
+    $ext = pathinfo($_FILES['receipt']['name'],PATHINFO_EXTENSION);
+
+    $allowed = ['jpg','jpeg','png','pdf'];
+
+    if(in_array(strtolower($ext),$allowed)){
+
+        $proof = $ref.".".$ext;
+
+        move_uploaded_file(
+            $_FILES['receipt']['tmp_name'],
+            "../uploads/proofs/".$proof
+        );
+    }
+}
+
 $stmt=$conn->prepare("
 INSERT INTO income
 (ref_code,type,source,payment_method,
-transaction_id,amount,remarks,date,receipt_file)
+transaction_id,amount,remarks,date,proof)
 VALUES (?,?,?,?,?,?,?,?,?)
 ");
 
@@ -74,6 +94,35 @@ $type,$src,$met,$txn,$amt,$rem,$date,$id
 $stmt->execute();
 
 $_SESSION['toast']="Income updated!";
+}
+
+/* REVIEW */
+if(isset($_POST['review'])){
+
+$id = $_POST['review_id'];
+$status = $_POST['review_status'];
+$comment = trim($_POST['comment']);
+
+$admin = $_SESSION['user']['id'];
+
+$stmt = $conn->prepare("
+UPDATE income SET
+status=?,
+admin_comment=?,
+reviewed_by=?,
+reviewed_at=NOW()
+WHERE income_id=?
+");
+
+$stmt->bind_param(
+"ssii",
+$status,$comment,$admin,$id
+);
+
+$stmt->execute();
+
+
+$_SESSION['toast'] = "Income reviewed successfully!";
 }
 
 

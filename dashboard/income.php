@@ -15,8 +15,12 @@ include "../config/db.php";
 
 // Get income
 $income = $conn->query("
-SELECT * FROM income
-ORDER BY income_id DESC
+SELECT i.*,
+       u.name AS donor_name
+FROM income i
+LEFT JOIN users u
+ON i.source = u.user_id
+ORDER BY i.income_id DESC
 ");
 ?>
 
@@ -80,6 +84,7 @@ data-bs-target="#addIncomeModal">
 <th>Payment</th>
 <th>Amount</th>
 <th>Date</th>
+<th>Status</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -96,9 +101,27 @@ data-bs-target="#addIncomeModal">
 
 <td><?= $row['type'] ?></td>
 
-<td><?= strlen($row['source'])>15 ?
-substr($row['source'],0,15)."..." :
-$row['source'] ?></td>
+<td>
+
+<?php
+
+// If donor record
+if(is_numeric($row['source']) && !empty($row['donor_name'])){
+
+    echo htmlspecialchars($row['donor_name']);
+
+}
+
+// If Anonymous / Others / Manual input
+else{
+
+    echo htmlspecialchars($row['source']);
+
+}
+
+?>
+
+</td>
 
 <td><?= $row['payment_method'] ?></td>
 
@@ -108,18 +131,34 @@ $row['source'] ?></td>
 
 <td>
 
+<?php if($row['status']=='verified'): ?>
+<span class="badge bg-success">Verified</span>
+<?php elseif($row['status']=='rejected'): ?>
+<span class="badge bg-danger">Rejected</span>
+<?php else: ?>
+<span class="badge bg-warning text-dark">Pending</span>
+<?php endif; ?>
+
+</td>
+
+<td>
+
 <!-- VIEW -->
 <button class="btn btn-sm btn-info viewBtn"
 
 data-ref="<?= $row['ref_code'] ?>"
 data-type="<?= $row['type'] ?>"
 data-source="<?= $row['source'] ?>"
+data-source-name="<?= $row['donor_name'] ?>"
 data-method="<?= $row['payment_method'] ?>"
 data-txn="<?= $row['transaction_id'] ?>"
 data-amt="<?= $row['amount'] ?>"
 data-rem="<?= $row['remarks'] ?>"
+data-status="<?= $row['status'] ?>"
+data-comment="<?= $row['admin_comment'] ?>"
+data-reviewed="<?= $row['reviewed_at'] ?>"
 data-date="<?= $row['date'] ?>"
-data-file="<?= $row['receipt_file'] ?>"
+data-file="<?= $row['proof'] ?>"
 
 data-bs-toggle="modal"
 data-bs-target="#viewIncomeModal">
@@ -147,6 +186,29 @@ data-bs-target="#editIncomeModal">
 <i class="bi bi-pencil"></i>
 
 </button>
+
+<!-- VERIFY -->
+<?php if($_SESSION['user']['role']=="admin" && $row['status']=="pending"): ?>
+
+<button class="btn btn-sm btn-success verifyBtn"
+data-id="<?= $row['income_id'] ?>"
+data-bs-toggle="modal"
+data-bs-target="#reviewModal">
+
+<i class="bi bi-check-circle"></i>
+
+</button>
+
+<button class="btn btn-sm btn-danger rejectBtn"
+data-id="<?= $row['income_id'] ?>"
+data-bs-toggle="modal"
+data-bs-target="#reviewModal">
+
+<i class="bi bi-x-circle"></i>
+
+</button>
+
+<?php endif; ?>
 
 
 <!-- DELETE -->
@@ -313,6 +375,9 @@ class="btn btn-gold">Save</button>
 <tr><th>Amount</th><td id="vAmt"></td></tr>
 <tr><th>Date</th><td id="vDate"></td></tr>
 <tr><th>Remarks</th><td id="vRem"></td></tr>
+<tr><th>Status</th><td id="vStatus"></td></tr>
+<tr><th>Admin Comment</th><td id="vComment"></td></tr>
+<tr><th>Reviewed At</th><td id="vReviewed"></td></tr>
 
 </table>
 
@@ -479,6 +544,57 @@ Delete
 </div>
 </div>
 
+<!-- REVIEW MODAL -->
+<div class="modal fade" id="reviewModal">
+
+<div class="modal-dialog">
+<div class="modal-content">
+
+<div class="modal-header bg-dark text-white">
+<h5>Review Income</h5>
+<button class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<form action="income_action.php" method="POST">
+
+<input type="hidden" name="review_id" id="reviewId">
+<input type="hidden" name="review_status" id="reviewStatus">
+
+<div class="modal-body">
+
+<div class="mb-3">
+<label>Admin Comment</label>
+
+<textarea name="comment"
+class="form-control"
+required
+placeholder="Enter reason / notes..."></textarea>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-secondary"
+data-bs-dismiss="modal">
+Cancel
+</button>
+
+<button type="submit"
+name="review"
+class="btn btn-primary">
+Submit Review
+</button>
+
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+
 <!-- TOAST -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
 
@@ -571,31 +687,66 @@ document.querySelectorAll(".viewBtn").forEach(btn=>{
 
 btn.onclick=()=>{
 
-vRef.innerText=btn.dataset.ref;
-vType.innerText=btn.dataset.type;
-vSource.innerText=btn.dataset.source;
-vMethod.innerText=btn.dataset.method;
-vTxn.innerText=btn.dataset.txn;
-vAmt.innerText="₱"+btn.dataset.amt;
-vDate.innerText=btn.dataset.date;
-vRem.innerText=btn.dataset.rem;
+vRef.innerText   = btn.dataset.ref;
+vType.innerText  = btn.dataset.type;
+vSource.innerText =
+btn.dataset.sourceName ?? btn.dataset.source;vMethod.innerText= btn.dataset.method;
+vTxn.innerText   = btn.dataset.txn;
+vAmt.innerText   = "₱"+btn.dataset.amt;
+vDate.innerText  = btn.dataset.date;
+vRem.innerText   = btn.dataset.rem;
+vStatus.innerText   = btn.dataset.status;
+vComment.innerText  = btn.dataset.comment || "N/A";
+vReviewed.innerText = btn.dataset.reviewed || "N/A";
 
-if(btn.dataset.file!=""){
 
-vReceipt.innerHTML=
-`<a href="../uploads/income_receipts/${btn.dataset.file}"
-target="_blank"
-class="btn btn-success">
-View Receipt
+if(btn.dataset.file && btn.dataset.file!=""){
+
+vReceipt.innerHTML =
+`<a href="../uploads/proofs/${btn.dataset.file}"
+   target="_blank"
+   class="btn btn-success">
+
+   <i class="bi bi-image"></i> View Proof
+
 </a>`;
 
 }else{
-vReceipt.innerHTML="No receipt uploaded.";
+
+vReceipt.innerHTML =
+'<span class="text-muted">No proof uploaded.</span>';
+
 }
 
 };
 
 });
+
+// REVIEW
+
+document.querySelectorAll(".verifyBtn").forEach(btn=>{
+
+btn.onclick = ()=>{
+
+reviewId.value = btn.dataset.id;
+reviewStatus.value = "verified";
+
+};
+
+});
+
+
+document.querySelectorAll(".rejectBtn").forEach(btn=>{
+
+btn.onclick = ()=>{
+
+reviewId.value = btn.dataset.id;
+reviewStatus.value = "rejected";
+
+};
+
+});
+
 
 </script>
 
