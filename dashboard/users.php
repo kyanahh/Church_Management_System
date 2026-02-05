@@ -31,42 +31,7 @@ $users = $conn->query("SELECT * FROM users ORDER BY user_id DESC");
 </head>
 <body>
     
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-    <h4>Church Finance</h4>
-
-    <a href="index.php" class="active">
-        <i class="bi bi-speedometer2"></i> Dashboard
-    </a>
-
-    <a href="/donations/add.php">
-        <i class="bi bi-cash-coin"></i> Donations
-    </a>
-
-    <a href="/expenses/add.php">
-        <i class="bi bi-wallet2"></i> Expenses
-    </a>
-
-    <a href="reports.php">
-        <i class="bi bi-file-earmark-text"></i> Reports
-    </a>
-
-    <a href="#">
-        <i class="bi bi-robot"></i> AI Insights
-    </a>
-
-    <a href="users.php">
-        <i class="bi bi-people"></i> Users
-    </a>
-
-    <hr style="color:#fff">
-
-    <a href="../auth/logout.php">
-        <i class="bi bi-box-arrow-right"></i> Logout
-    </a>
-
-</div>
+<?php include("includes/sidebar.php"); ?>
 
 <!-- MAIN -->
 <div class="main-content">
@@ -360,6 +325,25 @@ row.style.display = text.includes(filter) ? "" : "none";
 
 });
 </script>
+
+<script>
+
+const deleteModal = document.getElementById('deleteModal');
+
+deleteModal.addEventListener('show.bs.modal', function (event) {
+
+    const button = event.relatedTarget;
+
+    const userId   = button.getAttribute('data-id');
+    const userName = button.getAttribute('data-name');
+
+    document.getElementById('deleteUserId').value = userId;
+    document.getElementById('deleteUserName').innerText = userName;
+
+});
+
+</script>
+
 
 </body>
 </html>

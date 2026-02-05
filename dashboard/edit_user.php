@@ -40,26 +40,7 @@ if(!$user){
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-<h4>Church Finance</h4>
-
-<a href="index.php">
-<i class="bi bi-speedometer2"></i> Dashboard
-</a>
-
-<a href="users.php" class="active">
-<i class="bi bi-people"></i> Users
-</a>
-
-<hr style="color:#fff">
-
-<a href="../auth/logout.php">
-<i class="bi bi-box-arrow-right"></i> Logout
-</a>
-
-</div>
+<?php include("includes/sidebar.php"); ?>
 
 <!-- MAIN -->
 <div class="main-content">
