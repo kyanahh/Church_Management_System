@@ -11,7 +11,7 @@
         <i class="bi bi-cash-coin"></i> Donations
     </a>
 
-    <a href="/expenses/add.php">
+    <a href="expenses.php">
         <i class="bi bi-wallet2"></i> Expenses
     </a>
 
