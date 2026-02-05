@@ -1,14 +1,14 @@
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-    <h4>Church Finance</h4>
+    <h4>San Nicolas de Tolentino Parish Church</h4>
 
     <a href="index.php">
         <i class="bi bi-speedometer2"></i> Dashboard
     </a>
 
-    <a href="donations.php">
-        <i class="bi bi-cash-coin"></i> Donations
+    <a href="income.php">
+        <i class="bi bi-cash"></i> Income
     </a>
 
     <a href="expenses.php">
@@ -19,7 +19,7 @@
         <i class="bi bi-file-earmark-text"></i> Reports
     </a>
 
-    <a href="#">
+    <a href="ai_insights.php">
         <i class="bi bi-robot"></i> AI Insights
     </a>
 

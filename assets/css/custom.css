@@ -78,3 +78,16 @@ body {
 .stat-card h3 {
     font-weight: bold;
 }
+
+/* Equal height report cards */
+
+.report-card{
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+}
+
+.report-card .card-body{
+    flex: 1;
+    overflow-y: auto;
+}

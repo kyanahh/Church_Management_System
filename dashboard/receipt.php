@@ -14,7 +14,7 @@ $id = $_GET['id'] ?? 0;
 // Get donation info
 $stmt = $conn->prepare("
 SELECT d.*, u.name
-FROM donations d
+FROM income d
 LEFT JOIN users u ON d.donor_id = u.user_id
 WHERE d.donation_id = ?
 ");

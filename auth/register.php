@@ -24,7 +24,7 @@ if (isset($_SESSION['user'])) {
 <nav class="navbar navbar-expand-lg bg-brown navbar-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="register.php">
-            Church Finance System
+            San Nicolas de Tolentino Parish Church
         </a>
     </div>
 </nav>

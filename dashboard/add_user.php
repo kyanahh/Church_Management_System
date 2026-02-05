@@ -12,6 +12,7 @@ if(isset($_POST['addUser'])){
 
 $name = trim($_POST['name']);
 $email = trim($_POST['email']);
+$email = strtolower($email);
 $pass = $_POST['password'];
 $role = $_POST['role'];
 

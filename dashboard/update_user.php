@@ -20,6 +20,12 @@ $email  = trim($_POST['email']);
 $role   = $_POST['role'];
 $status = $_POST['status'];
 
+if($id == $_SESSION['user']['id'] && $role != 'admin'){
+    $_SESSION['toast']="You cannot remove your admin role.";
+    header("Location: users.php");
+    exit();
+}
+
 $stmt = $conn->prepare("
 UPDATE users
 SET name=?, email=?, role=?, status=?

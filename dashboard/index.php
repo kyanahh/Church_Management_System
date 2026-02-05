@@ -14,7 +14,7 @@ if($_SESSION['user']['role'] == 'donor'){
 include "../config/db.php";
 
 // Totals
-$don = $conn->query("SELECT SUM(amount) total FROM donations")->fetch_assoc();
+$don = $conn->query("SELECT SUM(amount) total FROM income")->fetch_assoc();
 $exp = $conn->query("SELECT SUM(amount) total FROM expenses")->fetch_assoc();
 
 $totalDon = $don['total'] ?? 0;
@@ -24,7 +24,7 @@ $balance  = $totalDon - $totalExp;
 // Monthly Data
 $donData = $conn->query("
 SELECT MONTH(date) m, SUM(amount) t
-FROM donations GROUP BY MONTH(date)
+FROM income GROUP BY MONTH(date)
 ");
 
 $expData = $conn->query("
@@ -73,7 +73,7 @@ FROM expenses GROUP BY MONTH(date)
         <div class="card stat-card shadow-sm">
             <div class="card-body text-center">
 
-                <h6>Total Donations</h6>
+                <h6>Total Income</h6>
                 <h3 class="text-success">
                     ₱<?= number_format($totalDon,2) ?>
                 </h3>
@@ -175,7 +175,7 @@ labels: [1,2,3,4,5,6,7,8,9,10,11,12],
 datasets: [
 
 {
-label: 'Donations',
+label: 'Income',
 borderColor: 'green',
 fill: false,
 data: [

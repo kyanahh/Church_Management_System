@@ -2,7 +2,7 @@
 
 include "../config/db.php";
 
-$don = $conn->query("SELECT SUM(amount) total FROM donations")->fetch_assoc()['total'] ?? 0;
+$don = $conn->query("SELECT SUM(amount) total FROM income")->fetch_assoc()['total'] ?? 0;
 $exp = $conn->query("SELECT SUM(amount) total FROM expenses")->fetch_assoc()['total'] ?? 0;
 
 $balance = $don - $exp;

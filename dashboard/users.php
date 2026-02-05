@@ -266,7 +266,7 @@ This action cannot be undone.
 
 <div class="modal-footer">
 
-<form action="user_action.php" method="GET">
+<form action="user_action.php" method="POST">
 
 <input type="hidden" name="action" value="delete">
 <input type="hidden" name="id" id="deleteUserId">
