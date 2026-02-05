@@ -91,3 +91,88 @@ body {
     flex: 1;
     overflow-y: auto;
 }
+
+/* DONOR HOME HERO */
+
+.donor-hero {
+    height: 90vh;
+    background: 
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url("../img/church.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.donor-hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.donor-hero p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.donor-hero .btn {
+    min-width: 160px;
+}
+
+
+/* DONOR CARDS */
+
+.donor-card{
+    height: 220px;              /* Force same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* Vertical center */
+    align-items: center;        /* Horizontal center */
+    text-align: center;
+    padding: 20px;
+}
+
+.donor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 768px){
+
+    .donor-card{
+        height: auto;
+        min-height: 180px;
+    }
+
+}
+
+/* Donor Navbar */
+
+.donor-nav{
+    background: #fff;
+    border-bottom: 2px solid #d4af37;
+}
+
+
+/* Donate Card */
+
+.donate-card{
+    max-width: 600px;
+    margin: auto;
+    border-radius: 12px;
+}
+
+.donate-card h4{
+    color: #6b4f1d;
+    font-weight: bold;
+}
+
+.donate-card label{
+    font-weight: 500;
+}
+
+.donate-card .form-control,
+.donate-card .form-select{
+    border-radius: 8px;
+}
